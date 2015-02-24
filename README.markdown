@@ -31,7 +31,7 @@ See [*Install an Extension*](http://www.getsymphony.com/learn/tasks/view/install
 
 1. Uninstall the [SASS Compiler](http://symphonyextensions.com/extensions/sass_compiler/) extension if it's installed
 2. Install the SCSS Compiler extension per [the docs](http://www.getsymphony.com/learn/tasks/view/install-an-extension/)
-3. Install the [scssphp](https://github.com/leafo/scssphp/) library into `lib/scssphp` either by manual copy or `git submodule add`
+3. Install the [scssphp](https://github.com/leafo/scssphp/) library into `lib/scssphp` either by manual copy or `git submodule update`
 
 **Note**: Installing the SASS Compiler and the SCSS Compiler at the same time may result in unexpected behaviour due to conflicting `.htaccess` rules. Use one or the other but not both.
 
