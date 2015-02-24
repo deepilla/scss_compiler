@@ -1,29 +1,76 @@
-# JIT SASS Compiler #
+# JIT SCSS Compiler #
 
 "Just in time" SASS compiler for Symphony CMS.
 
 - Version: 1.0
-- Date: 2nd February 2013
+- Date: 25th February 2015
 - Requirements: Symphony 2.3 or later
-- Author: Nils Werner, nils.werner@gmail.com
-- GitHub Repository: <http://github.com/nils-werner/sass_compiler>
+- Author: deepilla, hello@deepilla.com
+- GitHub Repository: <http://github.com/deepilla/scss_compiler>
 
 ## Synopsis
 
-A simple way to compile SASS and SCSS files on the fly via the URL.
+A fork of Nils Werner's [SASS Compiler](http://symphonyextensions.com/extensions/sass_compiler/) extension with the following changes:
+
+- The [phpsass](https://github.com/richthegeek/phpsass) compiler library has been replaced with [scssphp](https://github.com/leafo/scssphp/)
+- If compilation fails, the error message is written to the resulting CSS file so you can see what went wrong
+
+## Why fork the SASS Compiler extension?
+
+The [SASS Compiler](http://symphonyextensions.com/extensions/sass_compiler/) discards compilation errors which makes diagnosing issues difficult. Initially I just wanted to expose the error messages and perhaps update to the latest version of [phpsass](https://github.com/richthegeek/phpsass). But I ended up switching to the [scssphp](https://github.com/leafo/scssphp/) library because it:
+
+- implements a slightly newer version of SASS (3.2.12 vs "approx 3.2")
+- seems to be more actively maintained
+- has a [server mode](http://leafo.net/scssphp/docs/#scss_server) which caches the compiled CSS rather than recompiling on every request. Implementing it would make the extension suitable for production environments
+
+On the downside, [scssphp](https://github.com/leafo/scssphp/) doesn't support [the old SASS syntax](http://sass-lang.com/documentation/file.INDENTED_SYNTAX.html). But you weren't really using that, were you?
 
 ## Installation
 
-Information about [installing and updating extensions](http://symphony-cms.com/learn/tasks/view/install-an-extension/) can be found in the Symphony documentation at <http://symphony-cms.com/learn/>.
+See [*Install an Extension*](http://www.getsymphony.com/learn/tasks/view/install-an-extension/) in the Symphony docs.
+
+1. Uninstall the [SASS Compiler](http://symphonyextensions.com/extensions/sass_compiler/) extension if you have it
+2. Install the SCSS Compiler extension per the docs
+3. Install the [scssphp](https://github.com/leafo/scssphp/) library into `lib/scssphp` either by manually copy or `git submodule add`
+
+Note: Installing the SASS Compiler and the SCSS Compiler at the same time could result in unexpected behaviour due to conflicting `.htaccess` rules. Use one or the other but not both.
 
 ## Usage
 
 ### Basics
 
-Similar to JIT Image Manipulation: Just include your SCSS stylesheet, say `workspace/assets/style.scss` using
+Similar to JIT Image Manipulation, include your SCSS stylesheet, say `workspace/assets/style.scss`, using:
 
 	<link rel="stylesheet" href="/scss/assets/style.scss" />
 
-Alternatively, you can use the older, less CSS-like dialect of SASS:
+Your SCSS will be compiled on the fly when the page is loaded with a copy of the compiled CSS saved in `/path/to/project/manifest/cache/scss_compiler`. Note that this file is never used. Your SCSS is recompiled on every request.
 
-	<link rel="stylesheet" href="/sass/assets/style.sass" />
+Files that you import with `@import` are assumed to be in the same directory as the main file. If an error occurs during compilation the CSS file will contain the error message as a comment.
+
+### Warning: Do Not Use In Production
+
+Because your SCSS is compiled on every page load, you should **only use this extension in Development**. In Production, use the compiled CSS files instead. You could use a template to switch between the two, e.g.
+
+```XSLT
+<!-- Are we in Production? -->
+<xsl:variable name="production" select="{test for production environment goes here}" />
+
+<!-- Compile SASS in Development, use compiled CSS in Production -->
+<xsl:template name="compile-sass">
+    <xsl:param name="filename" />
+    <xsl:choose>
+        <xsl:when test="$production">
+            <link rel="stylesheet" href="/workspace/assets/css/{$filename}.css" />
+        </xsl:when>
+        <xsl:otherwise>
+            <link rel="stylesheet" href="/scss/assets/sass/{$filename}.scss" />
+        </xsl:otherwise>
+    </xsl:choose>
+</xsl:template>
+```
+
+Implementing the [server mode](http://leafo.net/scssphp/docs/#scss_server) of [scssphp](https://github.com/leafo/scssphp/) would remove the need for this switching. It compiles the SCSS once, caches the resulting CSS, and serves the cached files on subsequent page loads, only recompiling if the SCSS changes. It's on the todo list... 
+
+## TODO
+
+1. Look into [server mode](http://leafo.net/scssphp/docs/#scss_server) for CSS-caching functionality

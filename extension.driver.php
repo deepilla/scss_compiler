@@ -1,17 +1,17 @@
 <?php
 
-	Class extension_SASS_Compiler extends Extension{
+	Class extension_SCSS_Compiler extends Extension{
 
 		public function about(){
 			return array(
-				'name' => 'SASS Compiler',
+				'name' => 'SCSS Compiler',
 				'version' => '1.0',
-				'release-date' => '2013-02-02',
+				'release-date' => '2015-02-25',
 				'author' => array(
 					array(
-						'name' => 'Nils Werner',
-						'website' => 'http://www.obssessive-media.de/',
-						'email' => 'nils.werner@gmail.com'
+						'name' => 'deepilla',
+						'website' => 'http://deepilla.com',
+						'email' => 'hello@deepilla.com'
 					)
 				)
 			);
@@ -22,8 +22,8 @@
 		}
 
 		public function install(){
-			General::realiseDirectory(CACHE . '/sass_compiler/', Symphony::Configuration()->get('write_mode', 'directory'));
-			
+			General::realiseDirectory(CACHE . '/scss_compiler/', Symphony::Configuration()->get('write_mode', 'directory'));
+
 			$htaccess = @file_get_contents(DOCROOT . '/.htaccess');
 
 			if($htaccess === false) return false;
@@ -32,15 +32,14 @@
 			$token = md5(time());
 
 			$rule = "
-	### SASS RULES
-	RewriteRule ^sass\/(.+\.sass)\$ extensions/sass_compiler/lib/sass.php?mode=sass&param={$token} [L,NC]
-	RewriteRule ^scss\/(.+\.scss)\$ extensions/sass_compiler/lib/sass.php?mode=scss&param={$token} [L,NC]\n\n";
+	### SCSS RULES
+	RewriteRule ^scss\/(.+\.scss)\$ extensions/scss_compiler/lib/scss.php?param={$token} [L,NC]\n\n";
 
 			## Remove existing the rules
-			$htaccess = self::__removeSassRules($htaccess);
+			$htaccess = self::__removeScssRules($htaccess);
 
-			if(preg_match('/### SASS RULES/', $htaccess)){
-				$htaccess = preg_replace('/### SASS RULES/', $rule, $htaccess);
+			if(preg_match('/### SCSS RULES/', $htaccess)){
+				$htaccess = preg_replace('/### SCSS RULES/', $rule, $htaccess);
 			}
 			else{
 				$htaccess = preg_replace('/RewriteRule .\* - \[S=14\]\s*/i', "RewriteRule .* - [S=14]\n{$rule}\t", $htaccess);
@@ -57,8 +56,8 @@
 
 			if($htaccess === false) return false;
 
-			$htaccess = self::__removeSassRules($htaccess);
-			$htaccess = preg_replace('/### SASS RULES/', NULL, $htaccess);
+			$htaccess = self::__removeScssRules($htaccess);
+			$htaccess = preg_replace('/### SCSS RULES/', NULL, $htaccess);
 
 			return @file_put_contents(DOCROOT . '/.htaccess', $htaccess);
 		}
@@ -72,8 +71,8 @@
 
 			if($htaccess === false) return false;
 
-			$htaccess = self::__removeSassRules($htaccess);
-			$htaccess = preg_replace('/### SASS RULES/', NULL, $htaccess);
+			$htaccess = self::__removeScssRules($htaccess);
+			$htaccess = preg_replace('/### SCSS RULES/', NULL, $htaccess);
 
 			return @file_put_contents(DOCROOT . '/.htaccess', $htaccess);
 		}
@@ -82,8 +81,8 @@
 		Utilities:
 	-------------------------------------------------------------------------*/
 
-		private static function __removeSassRules($string){
-			return preg_replace('/RewriteRule \^sass[^\r\n]+[\r\n]?/i', NULL, $string);
+		private static function __removeScssRules($string){
+			return preg_replace('/RewriteRule \^scss[^\r\n]+[\r\n]?/i', NULL, $string);
 		}
 
 	}

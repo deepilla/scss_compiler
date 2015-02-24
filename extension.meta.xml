@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="sass_compiler" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
-	<name>SASS Compiler</name>
-	<description>Compile SASS- and SCSS-files to proper CSS</description>
-	<repo type="github">https://github.com/nils-werner/sass_compiler</repo>
+<extension id="scss_compiler" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>SCSS Compiler</name>
+	<description>Compile SCSS files to CSS</description>
+	<repo type="github">https://github.com/deepilla/scss_compiler</repo>
 	<types>
 		<type>Workflow</type>
 	</types>
 	<authors>
 		<author>
-			<name github="nils-werner" symphony="phoque">Nils Werner</name>
-			<website>http://www.phoque.de/</website>
+			<name github="deepilla" symphony="deepilla">deepilla</name>
+			<website>http://deepilla.com</website>
 		</author>
 	</authors>
 	<media>
 	</media>
 	<releases>
-		<release version="1.0" date="2013-02-02" min="2.3">
+		<release version="1.0" date="2013-02-25" min="2.3">
 			Initial Release
 		</release>
 	</releases>
