@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="scss_compiler" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+<extension id="scss_compiler" status="experimental" xmlns="http://getsymphony.com/schemas/extension/1.0">
 	<name>SCSS Compiler</name>
 	<description>Compile SCSS files to CSS</description>
 	<repo type="github">https://github.com/deepilla/scss_compiler</repo>
@@ -8,14 +8,12 @@
 	</types>
 	<authors>
 		<author>
-			<name github="deepilla" symphony="deepilla">deepilla</name>
+			<name github="deepilla" symphony="deepilla" twitter="deepilla">deepilla</name>
 			<website>http://deepilla.com</website>
 		</author>
 	</authors>
-	<media>
-	</media>
 	<releases>
-		<release version="1.0" date="2013-02-25" min="2.3">
+		<release version="1.0" date="2015-02-25" min="2.3" max="2.5.2">
 			Initial Release
 		</release>
 	</releases>
