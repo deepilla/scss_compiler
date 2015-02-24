@@ -1,3 +1,0 @@
-[submodule "lib/dist"]
-	path = lib/dist
-	url = git://github.com/richthegeek/phpsass.git
