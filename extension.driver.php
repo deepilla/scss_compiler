@@ -5,8 +5,8 @@
 		public function about(){
 			return array(
 				'name' => 'SCSS Compiler',
-				'version' => '1.0',
-				'release-date' => '2015-02-25',
+				'version' => '1.1',
+				'release-date' => '2015-03-18',
 				'author' => array(
 					array(
 						'name' => 'deepilla',

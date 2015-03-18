@@ -2,8 +2,8 @@
 
 "Just in time" SASS compiler for Symphony CMS. Supports SCSS syntax only.
 
-- Version: 1.0
-- Date: 25th February 2015
+- Version: 1.1
+- Date: 18th March 2015
 - Requirements: Symphony 2.3 or later
 - Author: deepilla, hello@deepilla.com
 - GitHub Repository: https://github.com/deepilla/scss_compiler
