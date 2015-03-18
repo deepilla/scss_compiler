@@ -6,12 +6,14 @@
 	define('DOMAIN', rtrim(rtrim($_SERVER['HTTP_HOST'], '/') . str_replace('/extensions/scss_compiler/lib', NULL, dirname($_SERVER['PHP_SELF'])), '/'));
 
 	// Include some parts of the engine
-	// From Symphony 2.6.0 we need to include the autoloader file first
-	// Wrap the require in a test so that it will continue to work for prior versions
+	// From Symphony 2.6.0 we can just include the autoloader file.
+	// If the autoloader doesn't exist, fall back to the older method for backwards-compatibility.
 	if (file_exists(DOCROOT . '/vendor/autoload.php')) {
 		require_once(DOCROOT . '/vendor/autoload.php');
 	}
-	require_once(DOCROOT . '/symphony/lib/boot/bundle.php');
+	else {
+		require_once(DOCROOT . '/symphony/lib/boot/bundle.php');
+	}
 	require_once(CONFIG);
 
 	require_once('scssphp/scss.inc.php');
